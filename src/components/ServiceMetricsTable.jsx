@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import TableRow from './TableRow';
 import FilterSortControls from './FilterSortControls';
+import '../App.css';
 
 const ServiceMetricsTable = ({ data }) => {
   const [filter, setFilter] = useState({ text: '', side: 'both' });
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending', side: 'client' });
 
-  const filteredData = data.filter((service) => 
-    service.service && service.service.toLowerCase().includes(filter.text.toLowerCase()) &&
-    (filter.side === 'both' || (filter.side === 'client' && service.client) || (filter.side === 'server' && service.server))
-  );
+  const filteredData = useMemo(() => {
+    return data.filter(service => 
+      service.service.toLowerCase().includes(filter.text.toLowerCase()) &&
+      (filter.side === 'both' || (filter.side === 'client' && service.client) || (filter.side === 'server' && service.server))
+    );
+  }, [data, filter]);
 
-  const sortedData = filteredData.sort((a, b) => {
-    if (sortConfig.key) {
+  const sortedData = useMemo(() => {
+    if (!sortConfig.key) return filteredData;
+
+    return filteredData.sort((a, b) => {
       const sideA = a[sortConfig.side][sortConfig.key];
       const sideB = b[sortConfig.side][sortConfig.key];
-      const compareSide = sideA < sideB ? -1 : sideA > sideB ? 1 : 0;
-      return sortConfig.direction === 'ascending' ? compareSide : -compareSide;
-    }
-    return 0;
-  });
+      const compare = sideA < sideB ? -1 : sideA > sideB ? 1 : 0;
+      return sortConfig.direction === 'ascending' ? compare : -compare;
+    });
+  }, [filteredData, sortConfig]);
 
   return (
     <div>
@@ -43,7 +47,7 @@ const ServiceMetricsTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((service) => (
+          {sortedData.map(service => (
             <TableRow key={service.service} service={service} filter={filter} />
           ))}
         </tbody>
