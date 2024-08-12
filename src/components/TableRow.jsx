@@ -1,4 +1,3 @@
-// tablerow.jsx
 import React from 'react';
 
 const TableRow = ({ service, filter }) => {
@@ -10,6 +9,7 @@ const TableRow = ({ service, filter }) => {
       {filter.side !== 'server' && hasClient && (
         <tr>
           <td rowSpan={filter.side === 'both' && hasServer ? '2' : '1'}>{service.service}</td>
+          <td>Client</td>
           <td>{service.client.requests}</td>
           <td>{service.client.rate}</td>
           <td>{service.client.p75}</td>
@@ -21,6 +21,7 @@ const TableRow = ({ service, filter }) => {
       {(filter.side === 'both' || filter.side === 'server') && hasServer && (
         <tr>
           {filter.side === 'server' && <td>{service.service}</td>}
+          <td>Server</td>
           <td>{service.server.requests}</td>
           <td>{service.server.rate}</td>
           <td>{service.server.p75}</td>

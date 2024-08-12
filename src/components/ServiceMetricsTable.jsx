@@ -33,6 +33,7 @@ const ServiceMetricsTable = ({ data }) => {
         <thead>
           <tr>
             <th>Service</th>
+            <th>Type</th>
             <th>Requests</th>
             <th>Rate</th>
             <th>P75</th>
