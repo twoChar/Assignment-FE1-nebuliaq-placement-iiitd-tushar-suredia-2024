@@ -1,5 +1,6 @@
 import React from 'react';
 import ServiceMetricsTable from './components/ServiceMetricsTable';
+import './App.css';
 
 const sampleData = [
   {

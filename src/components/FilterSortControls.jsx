@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 
 const FilterSortControls = ({ filter, setFilter, sortConfig, setSortConfig }) => {
   const handleFilterChange = (e) => {
@@ -16,7 +17,7 @@ const FilterSortControls = ({ filter, setFilter, sortConfig, setSortConfig }) =>
   };
 
   return (
-    <div>
+    <div className="controls-container">
       <input 
         type="text" 
         placeholder="Filter by service name..." 

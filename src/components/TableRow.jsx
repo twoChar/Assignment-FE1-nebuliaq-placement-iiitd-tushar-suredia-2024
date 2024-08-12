@@ -7,9 +7,11 @@ const TableRow = ({ service, filter }) => {
   return (
     <>
       {filter.side !== 'server' && hasClient && (
-        <tr>
-          <td rowSpan={filter.side === 'both' && hasServer ? '2' : '1'}>{service.service}</td>
-          <td>Client</td>
+        <tr className="fat-row">
+          <td rowSpan={filter.side === 'both' && hasServer ? '2' : '1'} className="service-name">
+            {service.service}
+          </td>
+          <td className="type">Client</td>
           <td>{service.client.requests}</td>
           <td>{service.client.rate}</td>
           <td>{service.client.p75}</td>
@@ -19,9 +21,9 @@ const TableRow = ({ service, filter }) => {
         </tr>
       )}
       {(filter.side === 'both' || filter.side === 'server') && hasServer && (
-        <tr>
-          {filter.side === 'server' && <td>{service.service}</td>}
-          <td>Server</td>
+        <tr className={filter.side === 'server' ? "fat-row" : "sub-row"}>
+          {filter.side === 'server' && <td className="service-name">{service.service}</td>}
+          <td className="type">Server</td>
           <td>{service.server.requests}</td>
           <td>{service.server.rate}</td>
           <td>{service.server.p75}</td>
